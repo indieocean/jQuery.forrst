@@ -18,10 +18,12 @@
  </script>
  <fieldset>
  <legend>Authenticate against forrst API</legend>
-  <div id="auth">
+  <div>
+   <form method="post" action="http://forrst.com/api/v2/" id="userinfo">
    <input type="text" name="email" />
    <input type="password" name="password" />
    <input type="submit" value="Authenticate" />
+   </form>
   </div>
   <div id="authenticate_results"></div>
  </fieldset>
@@ -35,9 +37,11 @@
  </script>
  <fieldset>
  <legend>Get forrst user info</legend>
-  <div id="userinfo">
+  <div>
+   <form method="post" action="http://forrst.com/api/v2/" id="userinfo">
    <input type="text" name="username" />
    <input type="submit" value="Get info" />
+   <form>
   </div>
   <div id="userinfo_results"></div>
  </fieldset>
@@ -51,9 +55,11 @@
  </script>
  <fieldset>
  <legend>Get post information</legend>
-  <div id="postinfo">
+  <div>
+   <form method="post" action="http://forrst.com/api/v2/" id="userinfo">
    <input type="text" name="post" />
    <input type="submit" value="Get post info" />
+   </form>
   </div>
   <div id="userinfo_results"></div>
  </fieldset>
