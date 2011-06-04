@@ -64,14 +64,13 @@
      /* make sure dependencies met */
      if (__dependencies(opts)){ 
 
-     /* handle key setting/getting */
-     handleKey(opts);
+      /* handle key setting/getting */
+      handleKey(opts);
 
-     /* cached options? */
-     cachedOptions(opts);
-    }
-
-    return true;
+      /* cached options? */
+      cachedOptions(opts);
+     }
+     return true;
     });
    },
 
