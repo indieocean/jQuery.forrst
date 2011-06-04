@@ -81,7 +81,7 @@
    },
 
    /* Authentication */
-   authenticate: function(o){
+   authenticate: function(opts){
     return this.each(function(){
      var cmd = 'users/auth';
      $('#'+opts.form).live('submit', function(e){
@@ -92,7 +92,7 @@
    },
 
    /* User info */
-   userinfo: function(o){
+   userinfo: function(opts){
     return this.each(function(){
      var cmd = 'users/info';
      $('#'+opts.form).live('submit', function(e){
@@ -103,7 +103,7 @@
    },
 
    /* post info */
-   postinfo: function(o){
+   postinfo: function(opts){
     return this.each(function(){
      var cmd = 'posts/show';
      $('#'+opts.form).live('submit', function(e){
@@ -114,7 +114,7 @@
    },
 
    /* posts comments */
-   postcomments: function(o){
+   postcomments: function(opts){
     return this.each(function(){
      var cmd = 'post/comments';
      $('#'+opts.form).live('submit', function(e){
