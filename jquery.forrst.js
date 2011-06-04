@@ -60,14 +60,18 @@
 
      /* merge defined with defaults */
      var opts = $.extend({}, defaults, options);
- 
+
+     /* make sure dependencies met */
+     if (__dependencies(opts)){ 
+
      /* handle key setting/getting */
      handleKey(opts);
 
      /* cached options? */
      cachedOptions(opts);
+    }
 
-     return opts;
+    return true;
     });
    },
 
