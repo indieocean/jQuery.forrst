@@ -83,10 +83,10 @@
    /* Authentication */
    authenticate: function(o){
     return this.each(function(){
-     /* bind to submit event and do the do */
+     var cmd = 'users/auth';
      $('#'+opts.form).live('submit', function(e){
       e.preventDefault();
-      __do(opts);
+      __do(opts, cmd);
      });
     });
    },
@@ -94,9 +94,10 @@
    /* User info */
    userinfo: function(o){
     return this.each(function(){
+     var cmd = 'users/info';
      $('#'+opts.form).live('submit', function(e){
       e.preventDefault();
-      __do(opts);
+      __do(opts, cmd);
      });
     });
    },
@@ -104,9 +105,10 @@
    /* post info */
    postinfo: function(o){
     return this.each(function(){
+     var cmd = 'posts/show';
      $('#'+opts.form).live('submit', function(e){
       e.preventDefault();
-      __do(opts);
+      __do(opts, cmd);
      });
     });
    },
@@ -114,20 +116,21 @@
    /* posts comments */
    postcomments: function(o){
     return this.each(function(){
+     var cmd = 'post/comments';
      $('#'+opts.form).live('submit', function(e){
       e.preventDefault();
-      __do(opts);
+      __do(opts, cmd);
      });
     });
    }
   };
 
   /* send it off to the server */
-  var __do = function(options){
+  var __do = function(options, cmd){
    $.ajax({
     data: options.data,
     type: options.type,
-    url: options.proxy,
+    url: options.proxy+cmd,
     success: function(x){
      ((options.callback)&&($.isFunction(options.callback))) ? options.callback.call(x) : false;
     }
