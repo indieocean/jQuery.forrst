@@ -10,10 +10,15 @@
  *
  * REQUIREMENTS:
  * - jQuery libraries (required - http://www.jquery.com)
+ * - jQuery cookie plugin (optional - http://plugins.jquery.com/files/jquery.cookie.js.txt)
+ * - Gibberish-AES libraries (optional - https://github.com/mdp/gibberish-aes)
  *
  * FEATURES:
+ * - HTML5 client storage options
+ * - Optional cookie storage support
+ * - Optional AES encryption support for client storage items
  *
- * OPTIONS:
+ * METHODS:
  * - authenticate: Use forrst.com API for authentication
  * - userinfo:     Obtain details on forrst user's
  * - postinfo:     Obtain details on forrst posts
