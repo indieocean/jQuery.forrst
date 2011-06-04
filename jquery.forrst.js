@@ -75,6 +75,7 @@
 
       /* cached options? */
       cachedOptions(opts);
+      return opts;
      }
      return true;
     });
@@ -84,9 +85,9 @@
    authenticate: function(opts){
     return this.each(function(){
      var cmd = 'users/auth';
-     $('#'+opts.form).live('submit', function(e){
+     $('#'+options.form).live('submit', function(e){
       e.preventDefault();
-      __do(opts, cmd);
+      __do(options, cmd);
      });
     });
    },
@@ -95,9 +96,9 @@
    userinfo: function(opts){
     return this.each(function(){
      var cmd = 'users/info';
-     $('#'+opts.form).live('submit', function(e){
+     $('#'+options.form).live('submit', function(e){
       e.preventDefault();
-      __do(opts, cmd);
+      __do(options, cmd);
      });
     });
    },
@@ -106,9 +107,9 @@
    postinfo: function(opts){
     return this.each(function(){
      var cmd = 'posts/show';
-     $('#'+opts.form).live('submit', function(e){
+     $('#'+options.form).live('submit', function(e){
       e.preventDefault();
-      __do(opts, cmd);
+      __do(options, cmd);
      });
     });
    },
@@ -119,7 +120,7 @@
      var cmd = 'post/comments';
      $('#'+opts.form).live('submit', function(e){
       e.preventDefault();
-      __do(opts, cmd);
+      __do(options, cmd);
      });
     });
    }
