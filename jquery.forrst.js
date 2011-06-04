@@ -88,7 +88,6 @@
    /* User info */
    userinfo: function(o){
     return this.each(function(){
-     /* bind to submit event and do the do */
      $('#'+opts.form).live('submit', function(e){
       e.preventDefault();
       __do(opts);
@@ -99,7 +98,6 @@
    /* post info */
    postinfo: function(o){
     return this.each(function(){
-     /* bind to submit event and do the do */
      $('#'+opts.form).live('submit', function(e){
       e.preventDefault();
       __do(opts);
@@ -110,7 +108,6 @@
    /* posts comments */
    postcomments: function(o){
     return this.each(function(){
-     /* bind to submit event and do the do */
      $('#'+opts.form).live('submit', function(e){
       e.preventDefault();
       __do(opts);
