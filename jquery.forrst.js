@@ -55,6 +55,7 @@
       data:     {},                      // Place holder for serialized form data
       aes:      false,                   // Use Gibberis-AES for client storage
       uuid:     '',                      // Place holder for key
+      token:    '',                      // Place holder for authentication token
       callback: function() {}            // Optional callback once form processed
      };
 
@@ -131,6 +132,11 @@
 
   /* handle cached options */
   var cachedOptions = function(options){
+   options.token = (getItem(options.storage, 'token')) ?
+    ((options.aes)&&(options.key)) ?
+     GibberishAES.dec(getItem(options.storage, 'token'), options.uuid) :
+     getItem(options.storage, 'token') : '';
+
    options.email = (getItem(options.storage, 'email')) ?
     ((options.aes)&&(options.key)) ?
      GibberishAES.dec(getItem(options.storage, 'email'), options.uuid) :
