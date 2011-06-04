@@ -10,30 +10,21 @@
 
  REQUIREMENTS:
  - jQuery libraries (required - http://www.jquery.com)
- - pidCrypt RSA & AES libraries (required - https://www.pidder.com/pidcrypt/)
- - jQuery cookie plugin (optional - http://plugins.jquery.com/files/jquery.cookie.js.txt)
 
  FEATURES:
- - HTML5 localStorage support
- - HTML5 sessionStorage support
- - Cookie support
+ - Interface for authentication
+ - Interface for user information
+ - Interface for post information
+ - Interface to retrieve posts comments
+ - Caching support for options
+  - HTML5 localStorage support
+  - HTML5 sessionStorage support
+  - Cookie support
 
  OPTIONS:
  - storage:  HTML5 localStorage, sessionStorage and cookies supported
+ - aes:      Options Gibberish-AES encryption support
  - callback: Optional function used once server recieves encrypted data
-
- USAGE:
- - Default usage using HTML5 localStorage
- $('#form').pidCrypt();
-
- - Using HTML5 sessionStorage
- $('#form').pidCrypt({storage:'sessionStorage'});
- 
- - Using cookies (requires the jQuery cookie plug-in)
- $('#form').pidCrypt({storage:'cookie'});
- 
- - Example of using the callback method to process server response
- $('#form').pidCrypt({callback:function(){ console.log('foo'); }});
 
  Author: Jason Gerfen <jason.gerfen@gmail.com>
  License: GPL
