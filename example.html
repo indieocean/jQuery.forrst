@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+ <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+ <title>jQuery.pidCrypt plugin demo</title>
+ <script src="http://code.jquery.com/jquery-1.6.min.js"></script>
+ <!-- jQuery.forrst plugin library -->
+ <script src="jquery.forrst.js"></script>
+</head>
+<body>
+ <h3><strong>jQuery forrst API demo's</strong></h3>
+ <!-- demonstration of using forrst API authentication -->
+ <script>
+  var $j = jQuery.noConflict();
+  $j(document).ready(function() {
+   $j('#auth').forrst('authenticate');
+  });
+ </script>
+ <fieldset>
+ <legend>Authenticate against forrst API</legend>
+  <div id="auth">
+   <input type="text" name="email" />
+   <input type="password" name="password" />
+   <input type="submit" value="Authenticate" />
+  </div>
+  <div id="authenticate_results"></div>
+ </fieldset>
+
+ <!-- demonstration of using forrst API to retrive user details -->
+ <script>
+  var $j = jQuery.noConflict();
+  $j(document).ready(function() {
+   $j('#userinfo').forrst('userinfo');
+  });
+ </script>
+ <fieldset>
+ <legend>Get forrst user info</legend>
+  <div id="userinfo">
+   <input type="text" name="username" />
+   <input type="submit" value="Get info" />
+  </div>
+  <div id="userinfo_results"></div>
+ </fieldset>
+
+ <!-- demonstration of using forrst API to retrive post details -->
+ <script>
+  var $j = jQuery.noConflict();
+  $j(document).ready(function() {
+   $j('#postinfo').forrst('postinfo');
+  });
+ </script>
+ <fieldset>
+ <legend>Get post information</legend>
+  <div id="postinfo">
+   <input type="text" name="post" />
+   <input type="submit" value="Get post info" />
+  </div>
+  <div id="userinfo_results"></div>
+ </fieldset>
+</body>
+</html>
