@@ -102,6 +102,7 @@
 
   /* send it off to the server */
   var __do = function(options){
+   options.data = getElements(options);
    $.ajax({
     data: options.data,
     dataType:'json',
@@ -120,7 +121,6 @@
   var __setup = function(options, cmd){
    options = $.extend({}, defaults, options);
    options.proxy = options.proxy+cmd;
-   options.data = getElements(options);
    if (__dependencies(options)){
     _setOptions(options);
     handleKey(options);
