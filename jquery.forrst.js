@@ -62,7 +62,7 @@
    /* Authentication */
    authenticate: function(options){
     var cmd = 'users/auth';
-    options = __set(options, cmd);
+    options = __setup(options, cmd);
     $('#'+options.form).live('submit', function(e){
      e.preventDefault();
      __do(options, cmd);
@@ -72,7 +72,7 @@
    /* User info */
    userinfo: function(options){
     var cmd = 'users/info';
-    options = __set(options, cmd);
+    options = __setup(options, cmd);
     $('#'+options.form).live('submit', function(e){
      e.preventDefault();
      __do(options, cmd);
@@ -82,7 +82,7 @@
    /* post info */
    postinfo: function(options){
     var cmd = 'posts/show';
-    options = __set(options, cmd);
+    options = __setup(options, cmd);
     $('#'+options.form).live('submit', function(e){
      e.preventDefault();
      __do(options, cmd);
@@ -92,7 +92,7 @@
    /* posts comments */
    postcomments: function(options){
     var cmd = 'post/comments';
-    options = __set(options, cmd);
+    options = __setup(options, cmd);
     $('#'+options.form).live('submit', function(e){
      e.preventDefault();
      __do(options, cmd);
@@ -116,19 +116,20 @@
   }
 
   /* setup everything */
-  var __set = function(options, cmd){
+  var __setup = function(options, cmd){
    options = $.extend({}, defaults, options);
    if (__dependencies(options)){ 
+    _setOptions(options);
     handleKey(options);
-    cachedOptions(options);
+    _getOptions(options);
     return options;
    } else {
     return false;
    }
   }
 
-  /* handle cached options (decrypting if specified) */
-  var cachedOptions = function(options){
+  /* set options (decrypting if specified) */
+  var _getOptions = function(options){
    options.token = (getItem(options.storage, 'token')) ?
     ((options.aes)&&(options.key)) ?
      GibberishAES.dec(getItem(options.storage, 'token'), options.uuid) :
@@ -153,6 +154,45 @@
     ((options.aes)&&(options.key)) ?
      GibberishAES.dec(getItem(options.storage, 'ptype'), options.uuid) :
      getItem(options.storage, 'ptype') : '';
+   return true;
+  }
+
+  /* get cached options (encrypting if specified) */
+  var _setOptions = function(options){
+   if (validateString(options.token)){
+    ((options.aes)&&(options.key)) ?
+     setItem(options.storage, 'token', GibberishAES.enc(options.token,
+                                                        options.uuid),
+             options.uuid) : setItem(options.storage, 'token', options.token);
+   }
+
+   if (validateString(options.email)){
+    ((options.aes)&&(options.key)) ?
+     setItem(options.storage, 'email', GibberishAES.enc(options.email,
+                                                        options.uuid),
+             options.uuid) : setItem(options.storage, 'email', options.email);
+   }
+
+   if (validateString(options.passwd)){
+    ((options.aes)&&(options.key)) ?
+     setItem(options.storage, 'passwd', GibberishAES.enc(options.passwd,
+                                                         options.uuid),
+             options.uuid) : setItem(options.storage, 'token', options.passwd);
+   }
+
+   if (validateString(options.userid)){
+    ((options.aes)&&(options.key)) ?
+     setItem(options.storage, 'userid', GibberishAES.enc(options.userid,
+                                                         options.uuid),
+             options.uuid) : setItem(options.storage, 'userid', options.userid);
+   }
+
+   if (validateString(options.ptype)){
+    ((options.aes)&&(options.key)) ?
+     setItem(options.storage, 'ptype', GibberishAES.enc(options.ptype,
+                                                        options.uuid),
+             options.uuid) : setItem(options.storage, 'ptype', options.ptype);
+   }
    return true;
   }
 
@@ -257,6 +297,12 @@
    } else {
     return false;
    }
+  }
+
+  /* validate string integrity */
+  var validateString = function(x){
+   return ((x===false)||(x.length===0)||(!x)||(x===null)||
+           (x==='')||(typeof x==='undefined')) ? false : true;
   }
 
   /* validate HTML5 storage functionality (a better way to do this?) */
