@@ -36,107 +36,150 @@
  /* jQuery.forrst plug-in */
  $.fn.forrst = function(method){
 
+  /* default options */
+  var defaults = {
+   storage:  'localStorage',          // HTML5 storage option (localStorage, sessionStorage)
+   email:    '',                      // Username/email of forrst user
+   passwd:   '',                      // Password of forrst user
+   userid:   '',                      // User id
+   ptype:    '',                      // Post type (code, snap, link, question)
+   limit:    3,                       // Number of posts to return per page
+   after:    '',                      // Returns only posts after id
+   form:     $(this).attr('id'),      // Place holder for form ID
+   proxy:    $(this).attr('action'),  // Place holder for form action
+   type:     $(this).attr('method'),  // Place holder for form method
+   data:     {},                      // Place holder for serialized form data
+   aes:      false,                   // Use Gibberis-AES for client storage
+   uuid:     '',                      // Place holder for key
+   token:    '',                      // Place holder for authentication token
+   callback: function() {}            // Optional callback once form processed
+  };
+
   /* define our methods */
   var methods = {
 
-   /* primary method of usage */
-   init: function(options){
-
-    /* chain it up */
-    return this.each(function(){
-
-     /* default options */
-     var defaults = {
-      storage:  'localStorage',          // HTML5 storage option (localStorage, sessionStorage)
-      email:    '',                      // Username/email of forrst user
-      passwd:   '',                      // Password of forrst user
-      userid:   '',                      // User id
-      ptype:    '',                      // Post type (code, snap, link, question)
-      limit:    3,                       // Number of posts to return per page
-      after:    '',                      // Returns only posts after id
-      form:     $(this).attr('id'),      // Place holder for form ID
-      proxy:    $(this).attr('action'),  // Place holder for form action
-      type:     $(this).attr('method'),  // Place holder for form method
-      data:     {},                      // Place holder for serialized form data
-      aes:      false,                   // Use Gibberis-AES for client storage
-      uuid:     '',                      // Place holder for key
-      token:    '',                      // Place holder for authentication token
-      callback: function() {}            // Optional callback once form processed
-     };
-
-     /* merge defined with defaults */
-     var opts = $.extend({}, defaults, options);
-
-     /* make sure dependencies met */
-     if (__dependencies(opts)){ 
-
-      /* handle key setting/getting */
-      handleKey(opts);
-
-      /* cached options? */
-      cachedOptions(opts);
-      return opts;
-     }
-     return true;
-    });
-   },
-
    /* Authentication */
-   authenticate: function(opts){
-    return this.each(function(){
+   authenticate: function(options){
+
+    /* merge defined with defaults */
+    options = $.extend({}, defaults, options);
+
+    /* make sure dependencies met */
+    if (__dependencies(options)){ 
+
+     /* handle key setting/getting */
+     handleKey(options);
+
+     /* cached options? */
+     cachedOptions(options);
+
+     /* API for authentication */
      var cmd = 'users/auth';
-     $('#'+options.form).live('submit', function(e){
+
+     /* do it... */
+     $(this).live('submit', function(e){
       e.preventDefault();
       __do(options, cmd);
      });
-    });
+    }
    },
 
    /* User info */
-   userinfo: function(opts){
-    return this.each(function(){
-     var cmd = 'users/info';
-     $('#'+options.form).live('submit', function(e){
-      e.preventDefault();
-      __do(options, cmd);
-     });
+   userinfo: function(options){
+
+    /* merge defined with defaults */
+    options = $.extend({}, defaults, options);
+
+    /* make sure dependencies met */
+    if (__dependencies(options)){ 
+
+     /* handle key setting/getting */
+     handleKey(options);
+
+     /* cached options? */
+     cachedOptions(options);
+
+    }
+
+    /* API for user info */
+    var cmd = 'users/info';
+
+    /* do it... */
+    $(this).live('submit', function(e){
+     e.preventDefault();
+     __do(options, cmd);
     });
    },
 
    /* post info */
-   postinfo: function(opts){
-    return this.each(function(){
+   postinfo: function(options){
+
+    /* merge defined with defaults */
+    options = $.extend({}, defaults, options);
+
+    /* make sure dependencies met */
+    if (__dependencies(options)){ 
+
+     /* handle key setting/getting */
+     handleKey(options);
+
+     /* cached options? */
+     cachedOptions(options);
+
+     /* API for post info */
      var cmd = 'posts/show';
-     $('#'+options.form).live('submit', function(e){
+
+     /* do it... */
+     $(this).live('submit', function(e){
       e.preventDefault();
       __do(options, cmd);
      });
-    });
+    }
    },
 
    /* posts comments */
-   postcomments: function(opts){
-    return this.each(function(){
+   postcomments: function(options){
+
+    /* merge defined with defaults */
+    options = $.extend({}, defaults, options);
+
+    /* make sure dependencies met */
+    if (__dependencies(options)){ 
+
+     /* handle key setting/getting */
+     handleKey(options);
+
+     /* cached options? */
+     cachedOptions(options);
+
+     /* API for post comments */
      var cmd = 'post/comments';
-     $('#'+opts.form).live('submit', function(e){
+
+     /* do it... */
+     $(this).live('submit', function(e){
       e.preventDefault();
       __do(options, cmd);
      });
-    });
+    }
    }
   };
 
   /* send it off to the server */
   var __do = function(options, cmd){
+   alert(options.proxy+cmd);
+/*
    $.ajax({
     data: options.data,
+    dataType:'json',
     type: options.type,
+    action: options.proxy,
     url: options.proxy+cmd,
     success: function(x){
      ((options.callback)&&($.isFunction(options.callback))) ? options.callback.call(x) : false;
     }
    });
    return false;
+*/
   }
 
   /* handle cached options */
@@ -299,6 +342,17 @@
     }
    }
    return ret;
+  }
+
+  /* object inspector for debugging */
+  var __recurse = function(obj){
+   $.each(obj, function(x,y){
+    if (typeof y==='object'){
+     __recurse(y);
+    } else {
+     console.log(x+' => '+y);
+    }
+   });
   }
 
   /* robot, do something */
