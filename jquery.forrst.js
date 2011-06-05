@@ -39,6 +39,7 @@
   /* default options */
   var defaults = {
    storage:  'localStorage',          // HTML5 storage option (localStorage, sessionStorage)
+   agent:    'jQuery.forrst',         // This is the unique (mandatory) API usage agent
    email:    '',                      // Username/email of forrst user
    passwd:   '',                      // Password of forrst user
    userid:   '',                      // User id
@@ -60,52 +61,19 @@
 
    /* Authentication */
    authenticate: function(options){
-
-    /* merge defined with defaults */
-    options = $.extend({}, defaults, options);
-
-    /* make sure dependencies met */
-    if (__dependencies(options)){ 
-
-     /* handle key setting/getting */
-     handleKey(options);
-
-     /* cached options? */
-     cachedOptions(options);
-
-     /* API for authentication */
-     var cmd = 'users/auth';
-
-     /* do it... */
-     $(this).live('submit', function(e){
-      e.preventDefault();
-      __do(options, cmd);
-     });
-    }
+    var cmd = 'users/auth';
+    options = __set(options, cmd);
+    $('#'+options.form).live('submit', function(e){
+     e.preventDefault();
+     __do(options, cmd);
+    });
    },
 
    /* User info */
    userinfo: function(options){
-
-    /* merge defined with defaults */
-    options = $.extend({}, defaults, options);
-
-    /* make sure dependencies met */
-    if (__dependencies(options)){ 
-
-     /* handle key setting/getting */
-     handleKey(options);
-
-     /* cached options? */
-     cachedOptions(options);
-
-    }
-
-    /* API for user info */
     var cmd = 'users/info';
-
-    /* do it... */
-    $(this).live('submit', function(e){
+    options = __set(options, cmd);
+    $('#'+options.form).live('submit', function(e){
      e.preventDefault();
      __do(options, cmd);
     });
@@ -113,61 +81,27 @@
 
    /* post info */
    postinfo: function(options){
-
-    /* merge defined with defaults */
-    options = $.extend({}, defaults, options);
-
-    /* make sure dependencies met */
-    if (__dependencies(options)){ 
-
-     /* handle key setting/getting */
-     handleKey(options);
-
-     /* cached options? */
-     cachedOptions(options);
-
-     /* API for post info */
-     var cmd = 'posts/show';
-
-     /* do it... */
-     $(this).live('submit', function(e){
-      e.preventDefault();
-      __do(options, cmd);
-     });
-    }
+    var cmd = 'posts/show';
+    options = __set(options, cmd);
+    $('#'+options.form).live('submit', function(e){
+     e.preventDefault();
+     __do(options, cmd);
+    });
    },
 
    /* posts comments */
    postcomments: function(options){
-
-    /* merge defined with defaults */
-    options = $.extend({}, defaults, options);
-
-    /* make sure dependencies met */
-    if (__dependencies(options)){ 
-
-     /* handle key setting/getting */
-     handleKey(options);
-
-     /* cached options? */
-     cachedOptions(options);
-
-     /* API for post comments */
-     var cmd = 'post/comments';
-
-     /* do it... */
-     $(this).live('submit', function(e){
-      e.preventDefault();
-      __do(options, cmd);
-     });
-    }
+    var cmd = 'post/comments';
+    options = __set(options, cmd);
+    $('#'+options.form).live('submit', function(e){
+     e.preventDefault();
+     __do(options, cmd);
+    });
    }
   };
 
   /* send it off to the server */
   var __do = function(options, cmd){
-   alert(options.proxy+cmd);
-/*
    $.ajax({
     data: options.data,
     dataType:'json',
@@ -179,7 +113,18 @@
     }
    });
    return false;
-*/
+  }
+
+  /* setup everything */
+  var __set = function(options, cmd){
+   options = $.extend({}, defaults, options);
+   if (__dependencies(options)){ 
+    handleKey(options);
+    cachedOptions(options);
+    return options;
+   } else {
+    return false;
+   }
   }
 
   /* handle cached options */
