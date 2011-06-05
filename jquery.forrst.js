@@ -61,9 +61,9 @@
 
    /* Authentication */
    authenticate: function(options){
+    var cmd = 'users/auth';
+    options = __set(options, cmd);
     $('#'+options.form).live('submit', function(e){
-     var cmd = 'users/auth';
-     options = __set(options, cmd);
      e.preventDefault();
      __do(options, cmd);
     });
@@ -71,9 +71,9 @@
 
    /* User info */
    userinfo: function(options){
+    var cmd = 'users/info';
+    options = __set(options, cmd);
     $('#'+options.form).live('submit', function(e){
-     var cmd = 'users/info';
-     options = __set(options, cmd);
      e.preventDefault();
      __do(options, cmd);
     });
@@ -81,9 +81,9 @@
 
    /* post info */
    postinfo: function(options){
+    var cmd = 'posts/show';
+    options = __set(options, cmd);
     $('#'+options.form).live('submit', function(e){
-     var cmd = 'posts/show';
-     options = __set(options, cmd);
      e.preventDefault();
      __do(options, cmd);
     });
@@ -91,9 +91,9 @@
 
    /* posts comments */
    postcomments: function(options){
+    var cmd = 'post/comments';
+    options = __set(options, cmd);
     $('#'+options.form).live('submit', function(e){
-     var cmd = 'post/comments';
-     options = __set(options, cmd);
      e.preventDefault();
      __do(options, cmd);
     });
