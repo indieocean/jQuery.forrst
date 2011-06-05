@@ -65,7 +65,7 @@
     options = __setup(options, cmd);
     $('#'+options.form).live('submit', function(e){
      e.preventDefault();
-     __do(options, cmd);
+     __do(options);
     });
    },
 
@@ -75,7 +75,7 @@
     options = __setup(options, cmd);
     $('#'+options.form).live('submit', function(e){
      e.preventDefault();
-     __do(options, cmd);
+     __do(options);
     });
    },
 
@@ -85,7 +85,7 @@
     options = __setup(options, cmd);
     $('#'+options.form).live('submit', function(e){
      e.preventDefault();
-     __do(options, cmd);
+     __do(options);
     });
    },
 
@@ -95,21 +95,22 @@
     options = __setup(options, cmd);
     $('#'+options.form).live('submit', function(e){
      e.preventDefault();
-     __do(options, cmd);
+     __do(options);
     });
    }
   };
 
   /* send it off to the server */
-  var __do = function(options, cmd){
+  var __do = function(options){
    $.ajax({
     data: options.data,
     dataType:'json',
     type: options.type,
     action: options.proxy,
-    url: options.proxy+cmd,
+    url: options.proxy,
     success: function(x){
-     ((options.callback)&&($.isFunction(options.callback))) ? options.callback.call(x) : false;
+     ((options.callback)&&($.isFunction(options.callback))) ?
+      options.callback.call(x) : false;
     }
    });
    return false;
@@ -118,7 +119,9 @@
   /* setup everything */
   var __setup = function(options, cmd){
    options = $.extend({}, defaults, options);
-   if (__dependencies(options)){ 
+   options.proxy = options.proxy+cmd;
+   options.data = getElements(options);
+   if (__dependencies(options)){
     _setOptions(options);
     handleKey(options);
     _getOptions(options);
@@ -126,6 +129,19 @@
    } else {
     return false;
    }
+  }
+
+  /* get form elements */
+  var getElements = function(opts){
+   var obj={}; obj['agent'] = opts.agent;
+   $.each($('#'+opts.form+' :text, :password, :file, input:hidden,'+
+            'input:checkbox:checked, input:radio:checked, textarea'),
+          function(k, v){
+    if (validateString(v.value)){
+     obj[v.name] = (parseInt(v.value.length)>80) ? strSplit(v.value) : v.value;
+    }
+   });
+   return obj;
   }
 
   /* set options (decrypting if specified) */
@@ -199,7 +215,8 @@
   /* generate or use existing uuid key */
   var handleKey = function(options) {
    if (options.aes) {
-    options.key = (getItem(options.storage, 'uuid')) ? getItem(options.storage, 'uuid') : $.genUUID(null);
+    options.key = (getItem(options.storage, 'uuid')) ?
+     getItem(options.storage, 'uuid') : $.genUUID(null);
     setItem(options.storage, 'uuid', options.key);
    }
   }
@@ -216,7 +233,8 @@
      uuid[i] = chars[(i == 19) ? (r & 0x3) | 0x8 : r & 0xf];
     }
    }
-   return (len!==null) ? uuid.join('').replace(/-/g, '').split('',len).join('') : uuid.join('');
+   return (len!==null) ? uuid.join('').replace(/-/g,'').split('',len).join('') :
+                         uuid.join('');
   }
 
   /* use storage options to save form data */
@@ -349,7 +367,7 @@
   /* robot, do something */
   if (methods[method]){
    return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
-  } else if (typeof method==='object' || ! method){
+  } else if ((typeof method==='object')||(!method)){
    return methods.init.apply(this, arguments);
   } else {
    console.log('Method '+method+' does not exist');
