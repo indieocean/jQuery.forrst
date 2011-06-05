@@ -146,6 +146,11 @@
 
   /* set options (decrypting if specified) */
   var _getOptions = function(options){
+   options.agent = (getItem(options.storage, 'agent')) ?
+    ((options.aes)&&(options.key)) ?
+     GibberishAES.dec(getItem(options.storage, 'agent'), options.uuid) :
+     getItem(options.storage, 'agent') : '';
+
    options.token = (getItem(options.storage, 'token')) ?
     ((options.aes)&&(options.key)) ?
      GibberishAES.dec(getItem(options.storage, 'token'), options.uuid) :
@@ -175,6 +180,13 @@
 
   /* get cached options (encrypting if specified) */
   var _setOptions = function(options){
+   if (validateString(options.agent)){
+    ((options.aes)&&(options.key)) ?
+     setItem(options.storage, 'agent', GibberishAES.enc(options.agent,
+                                                        options.uuid),
+             options.uuid) : setItem(options.storage, 'agent', options.agent);
+   }
+
    if (validateString(options.token)){
     ((options.aes)&&(options.key)) ?
      setItem(options.storage, 'token', GibberishAES.enc(options.token,
