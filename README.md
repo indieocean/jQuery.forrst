@@ -27,30 +27,25 @@
 
 ## EXAMPLES:
 
-### Authentication example (for use on a form)
-
+* Authentication example (for use on a form)
 ```$('#formID').forrst('authenticate');```
 
-### Get user information (for use on a form)
-
+* Get user information (for use on a form)
 ```$('#formID').forrst('userinfo');```
 
-### Get user information (with name specified)
+* Get user information (with name specified)
 ```$('#formID').forrst('userinfo',{id:'username'});```
 
-### Get user information (with name specified)
+* Get user information (with name specified)
    using encryption to store results (requires GibberishAES library)
-
 ```$('#formID').forrst('userinfo',{id:'username',aes:true});```
 
-### Get user information (with name specified)
+* Get user information (with name specified)
    using sessionStorage
-
 ```$('#formID').forrst('userinfo',{id:'username',storage:'sessionStorage'});```
 
-### Get user information (with name specified)
+* Get user information (with name specified)
    using cookies (requires cookie plugin)
-
 ```$('#formID').forrst('userinfo',{id:'username',storage:'cookie'});```
 
  Author: Jason Gerfen <jason.gerfen@gmail.com>
