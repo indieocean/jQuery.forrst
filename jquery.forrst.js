@@ -109,9 +109,9 @@
      xhr.setRequestHeader('XMLHttpRequest', 'jQuery.forrst');
     },
     success: function(data, status, response){
+     (options.cache) ? _save(options, data) : false;
      ((options.callback)&&($.isFunction(options.callback))) ?
-      options.callback.call(response) : (options.cache) ? _save(response) :
-      _recurse(response);
+      options.callback.call(data) : _recurse(data);
     }
    });
    return false;
@@ -127,6 +127,19 @@
    } else {
     return false;
    }
+  }
+
+  /* save data locally */
+  var _save = function(opts, data){
+   $.each(data, function(a, b){
+    if (typeof b==='object'){
+     _save(opts, b);
+    } else {
+     (opts.aes) ? setItem(opts.storage, a, Gibberish.enc(b, opts.uuid)) :
+      setItem(opts.storage, a, b);
+    }
+   });
+   return true;
   }
 
   /* get form elements */
