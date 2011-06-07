@@ -135,7 +135,7 @@
     if (typeof b==='object'){
      _save(opts, b);
     } else {
-     (opts.aes) ? setItem(opts.storage, a, Gibberish.enc(b, opts.uuid)) :
+     (opts.aes) ? setItem(opts.storage, a, GibberishAES.enc(b, opts.uuid)) :
       setItem(opts.storage, a, b);
     }
    });
@@ -149,7 +149,7 @@
             'input:checkbox:checked, input:radio:checked, textarea'),
           function(k, v){
     if (validateString(v.value)){
-     obj[v.name] = (parseInt(v.value.length)>80) ? strSplit(v.value) : v.value;
+     obj[v.name] = v.value;
     }
    });
    return obj;
@@ -159,7 +159,7 @@
   var handleKey = function(options) {
    if (options.aes) {
     options.key = (getItem(options.storage, 'uuid')) ?
-     getItem(options.storage, 'uuid') : $.genUUID(null);
+     getItem(options.storage, 'uuid') : genUUID(null);
     setItem(options.storage, 'uuid', options.key);
    }
   }
