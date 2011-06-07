@@ -5,7 +5,33 @@
  <title>jQuery.pidCrypt plugin demo</title>
  <script src="http://code.jquery.com/jquery-1.6.min.js"></script>
  <!-- jQuery.forrst plugin library -->
- <script src="jquery.forrst.js"></script>
+ <script src="jquery.forrst.dev.js"></script>
+ <script>
+/*
+  var $j = jQuery.noConflict();
+  $j(document).ready(function(){
+   $j.ajax({
+    data:{username:'jas'},
+    dataType:'jsonp',
+    type:'get',
+    url:'http://forrst.com/api/v2/users/info',
+    async:false,
+    success:function(x){
+     $j.each(x, function(k,v){
+      if (typeof v==='object'){
+       $j.each(v, function(a,b){
+        console.log(k+': '+a+' => '+b);
+       });
+      } else {
+       console.log(k+' => '+v);
+      }
+     });
+    }
+   });
+   return false;
+  });
+*/
+ </script>
  <style>
   .col1 { text-align: right; width: 200px; margin: 0; float: left; margin: 2px 2px 2px 2px; }
   .col2 { width: 300px; display: block; float: left; padding: 2px 2px 2px 5px; }
@@ -41,7 +67,7 @@
     <span class="col2"><input type="password" name="password" /></span>
    </div>
    <div>
-    <input type="submit" value="Authenticate" />
+    <input type="submit" value="Authenticate" disabled="true" />
    </div>
    </form>
   </div>
@@ -58,9 +84,9 @@
  <fieldset>
  <legend>Get forrst user info</legend>
   <div>
-   <form method="post" action="http://forrst.com/api/v2/" id="userinfo">
+   <form method="get" action="http://forrst.com/api/v2/" id="userinfo">
    <div class="row">
-    <label class="col1">email:</label>
+    <label class="col1">username:</label>
     <span class="col2"><input type="text" name="username" /></span>
    </div>
    <div>
@@ -81,7 +107,7 @@
  <fieldset>
  <legend>Get post information</legend>
   <div>
-   <form method="post" action="http://forrst.com/api/v2/" id="postinfo">
+   <form method="get" action="http://forrst.com/api/v2/" id="postinfo">
    <div class="row">
     <label class="col1">post id:</label>
     <span class="col2"><input type="text" name="post" /></span>
