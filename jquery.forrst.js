@@ -39,20 +39,15 @@
   /* default options */
   var defaults = {
    storage:  'localStorage',          // HTML5 storage option (localStorage, sessionStorage)
-   email:    '',                      // Username/email of forrst user
-   passwd:   '',                      // Password of forrst user
-   userid:   '',                      // User id
-   ptype:    '',                      // Post type (code, snap, link, question)
-   limit:    3,                       // Number of posts to return per page
-   after:    '',                      // Returns only posts after id
    form:     $(this).attr('id'),      // Place holder for form ID
    proxy:    $(this).attr('action'),  // Place holder for form action
    type:     $(this).attr('method'),  // Place holder for form method
+   cache:    true,                    // Use client storage for cached information
    data:     {},                      // Place holder for serialized form data
-   aes:      false,                   // Use Gibberis-AES for client storage
    uuid:     '',                      // Place holder for key
+   aes:      false,                   // Use Gibberis-AES for client storage
    token:    '',                      // Place holder for authentication token
-   callback: ''            // Optional callback once form processed
+   callback: function() {}            // Optional callback once form processed
   };
 
   /* define our methods */
@@ -107,12 +102,16 @@
     dataType:'jsonp',
     type: options.type,
     url: options.proxy,
+    cache: true,
     beforeSend: function(xhr) {
-     xhr.setRequestHeader('Name', 'jQuery.forrst');
-    }, 
-    success: function(data,status,response){
+     xhr.setRequestHeader('X-Alt-Referer', 'jQuery.forrst');
+     xhr.setRequestHeader('User-Agent', 'jQuery.forrst');
+     xhr.setRequestHeader('XMLHttpRequest', 'jQuery.forrst');
+    },
+    success: function(data, status, response){
      ((options.callback)&&($.isFunction(options.callback))) ?
-      options.callback.call(data) : false;
+      options.callback.call(response) : (options.cache) ? _save(response) :
+      _recurse(response);
     }
    });
    return false;
@@ -124,8 +123,6 @@
    options.proxy = options.proxy+cmd;
    if (__dependencies(options)){
     handleKey(options);
-    //_setOptions(options);
-    //_getOptions(options);
     return options;
    } else {
     return false;
@@ -134,7 +131,7 @@
 
   /* get form elements */
   var getElements = function(opts){
-   var obj={}; obj['callback'] = '?';
+   var obj={};
    $.each($('#'+opts.form+' :text, :password, :file, input:hidden,'+
             'input:checkbox:checked, input:radio:checked, textarea'),
           function(k, v){
@@ -143,74 +140,6 @@
     }
    });
    return obj;
-  }
-
-  /* set options (decrypting if specified) */
-  var _getOptions = function(options){
-   options.token = (getItem(options.storage, 'token')) ?
-    ((options.aes)&&(options.key)) ?
-     GibberishAES.dec(getItem(options.storage, 'token'), options.uuid) :
-     getItem(options.storage, 'token') : '';
-
-   options.email = (getItem(options.storage, 'email')) ?
-    ((options.aes)&&(options.key)) ?
-     GibberishAES.dec(getItem(options.storage, 'email'), options.uuid) :
-     getItem(options.storage, 'email') : '';
-
-   options.passwd = (getItem(options.storage, 'passwd')) ?
-    ((options.aes)&&(options.key)) ?
-     GibberishAES.dec(getItem(options.storage, 'passwd'), options.uuid) :
-     getItem(options.storage, 'passwd') : '';
-
-   options.userid = (getItem(options.storage, 'userid')) ?
-    ((options.aes)&&(options.key)) ?
-     GibberishAES.dec(getItem(options.storage, 'userid'), options.uuid) :
-     getItem(options.storage, 'userid') : '';
-
-   options.ptype = (getItem(options.storage, 'ptype')) ?
-    ((options.aes)&&(options.key)) ?
-     GibberishAES.dec(getItem(options.storage, 'ptype'), options.uuid) :
-     getItem(options.storage, 'ptype') : '';
-   return true;
-  }
-
-  /* get cached options (encrypting if specified) */
-  var _setOptions = function(options){
-   if (validateString(options.token)){
-    ((options.aes)&&(options.key)) ?
-     setItem(options.storage, 'token', GibberishAES.enc(options.token,
-                                                        options.uuid),
-             options.uuid) : setItem(options.storage, 'token', options.token);
-   }
-
-   if (validateString(options.email)){
-    ((options.aes)&&(options.key)) ?
-     setItem(options.storage, 'email', GibberishAES.enc(options.email,
-                                                        options.uuid),
-             options.uuid) : setItem(options.storage, 'email', options.email);
-   }
-
-   if (validateString(options.passwd)){
-    ((options.aes)&&(options.key)) ?
-     setItem(options.storage, 'passwd', GibberishAES.enc(options.passwd,
-                                                         options.uuid),
-             options.uuid) : setItem(options.storage, 'token', options.passwd);
-   }
-
-   if (validateString(options.userid)){
-    ((options.aes)&&(options.key)) ?
-     setItem(options.storage, 'userid', GibberishAES.enc(options.userid,
-                                                         options.uuid),
-             options.uuid) : setItem(options.storage, 'userid', options.userid);
-   }
-
-   if (validateString(options.ptype)){
-    ((options.aes)&&(options.key)) ?
-     setItem(options.storage, 'ptype', GibberishAES.enc(options.ptype,
-                                                        options.uuid),
-             options.uuid) : setItem(options.storage, 'ptype', options.ptype);
-   }
-   return true;
   }
 
   /* generate or use existing uuid key */
