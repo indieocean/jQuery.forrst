@@ -42,6 +42,7 @@
    form:     $(this).attr('id'),      // Place holder for form ID
    proxy:    $(this).attr('action'),  // Place holder for form action
    type:     $(this).attr('method'),  // Place holder for form method
+   id:       '',                      // Place holder for user id, post id
    cache:    true,                    // Use client storage for cached information
    data:     {},                      // Place holder for serialized form data
    uuid:     '',                      // Place holder for key
@@ -73,9 +74,39 @@
     });
    },
 
+   /* users posts */
+   userposts: function(options){
+    var cmd = 'user/posts';
+    options = __setup(options, cmd);
+    $('#'+options.form).live('submit', function(e){
+     e.preventDefault();
+     __do(options);
+    });
+   },
+
    /* post info */
    postinfo: function(options){
     var cmd = 'posts/show';
+    options = __setup(options, cmd);
+    $('#'+options.form).live('submit', function(e){
+     e.preventDefault();
+     __do(options);
+    });
+   },
+
+   /* return all posts */
+   all: function(options){
+    var cmd = 'posts/all';
+    options = __setup(options, cmd);
+    $('#'+options.form).live('submit', function(e){
+     e.preventDefault();
+     __do(options);
+    });
+   },
+
+   /* posts list by type */
+   postlist: function(options){
+    var cmd = 'posts/list';
     options = __setup(options, cmd);
     $('#'+options.form).live('submit', function(e){
      e.preventDefault();
@@ -96,7 +127,8 @@
 
   /* send it off to the server */
   var __do = function(options){
-   options.data = getElements(options);
+   options.data = (sizeChk(options.data)>0) ? getElements(options) :
+                                              options.data;
    $.ajax({
     data: options.data,
     dataType:'jsonp',
@@ -178,6 +210,15 @@
    }
    return (len!==null) ? uuid.join('').replace(/-/g,'').split('',len).join('') :
                          uuid.join('');
+  }
+
+  /* associative object size */
+  var sizeChk = function(obj){
+   var n = 0;
+   $.each(obj, function(k, v){
+    if (obj.hasOwnProperty(k)) n++;
+   });
+   return n;
   }
 
   /* use storage options to save form data */
