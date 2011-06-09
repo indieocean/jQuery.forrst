@@ -137,8 +137,6 @@
     cache: true,
     beforeSend: function(xhr) {
      xhr.setRequestHeader('X-Alt-Referer', 'jQuery.forrst');
-     xhr.setRequestHeader('User-Agent', 'jQuery.forrst');
-     xhr.setRequestHeader('XMLHttpRequest', 'jQuery.forrst');
     },
     success: function(data, status, response){
      (options.cache) ? _save(options, data) : false;
@@ -177,9 +175,7 @@
   /* get form elements */
   var getElements = function(opts){
    var obj={};
-   $.each($('#'+opts.form+' :text, :password, :file, input:hidden,'+
-            'input:checkbox:checked, input:radio:checked, textarea'),
-          function(k, v){
+   $.each($('#'+opts.form+' :text, :password, :file, input:hidden,input:checkbox:checked, input:radio:checked, textarea, input[type="email"]'),function(k, v){
     if (validateString(v.value)){
      obj[v.name] = v.value;
     }
